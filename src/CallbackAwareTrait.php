@@ -37,7 +37,7 @@ trait CallbackAwareTrait
      *
      * @return $this
      */
-    protected function _setCallback(callable $callback)
+    protected function _setCallback(callable $callback = null)
     {
         $this->callback = $callback;
 
