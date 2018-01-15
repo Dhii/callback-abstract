@@ -1,6 +1,6 @@
 <?php
 
-namespace Dhii\Util\FuncTest;
+namespace Dhii\Invocation\FuncTest;
 
 use Dhii\Util\CallbackAwareTrait;
 use Xpmock\TestCase;
@@ -17,7 +17,7 @@ class CallbackAwareTraitTest extends TestCase
      *
      * @since [*next-version*]
      */
-    const TEST_SUBJECT_CLASSNAME = 'Dhii\\Util\\CallbackAwareTrait';
+    const TEST_SUBJECT_CLASSNAME = 'Dhii\Invocation\CallbackAwareTrait';
 
     /**
      * Creates a new instance of the test subject.

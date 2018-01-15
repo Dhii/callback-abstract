@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dhii\\Util\\": "src"
+            "Dhii\\Invocation\\": "src"
         }
     },
     "scripts": {

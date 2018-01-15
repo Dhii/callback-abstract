@@ -1,6 +1,6 @@
 <?php
 
-namespace Dhii\Util;
+namespace Dhii\Invocation;
 
 /**
  * Something that has a callback.
