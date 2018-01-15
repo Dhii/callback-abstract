@@ -3,3 +3,5 @@
 /test/coverage/
 /test/log/
 /build/
+/.idea/workspace.xml
+/.idea/inspectionProfiles/

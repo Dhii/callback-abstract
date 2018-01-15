@@ -1,6 +1,6 @@
 {
-    "name": "dhii/callback-aware-trait",
-    "description": "Traits for objects that are aware of callback functions.",
+    "name": "dhii/callback-abstract",
+    "description": "Abstract functionality for working with callbacks.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,11 +21,16 @@
     },
     "autoload": {
         "psr-4": {
-            "Dhii\\Util\\": "src"
+            "Dhii\\Invocation\\": "src"
         }
     },
     "scripts": {
         "test": "phpunit",
         "csfix": "php-cs-fixer fix -vvv"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.1.x-dev"
+        }
     }
 }
