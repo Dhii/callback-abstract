@@ -24,6 +24,7 @@ trait InvokeCallableCapableTrait
      *
      * @throws InvalidArgumentException If the callable is not callable.
      * @throws InvalidArgumentException if the args are not a valid list.
+     * @throws RootException            For errors that happen during invocation.
      *
      * @return mixed The result of the invocation.
      */
