@@ -3,6 +3,7 @@
 namespace Dhii\Invocation;
 
 use Dhii\Util\String\StringableInterface as Stringable;
+use Dhii\Invocation\Exception\InvocationExceptionInterface;
 use Exception as RootException;
 use InvalidArgumentException;
 use Traversable;
@@ -36,7 +37,20 @@ trait InvokeCallableCapableTrait
 
         $args = $this->_normalizeArray($args);
 
-        return call_user_func_array($callable, $args);
+        try {
+            $result = call_user_func_array($callable, $args);
+        }
+        catch (RootException $e) {
+            throw $this->_createInvocationExceptionInterface(
+                $this->__('There was an error during invocation'),
+                null,
+                $e,
+                $callable,
+                $args
+            );
+        }
+
+        return $result;
     }
 
     /**
@@ -84,4 +98,25 @@ trait InvokeCallableCapableTrait
      * @return string The translated string.
      */
     abstract protected function __($string, $args = [], $context = null);
+
+    /**
+     * Creates a new Invocation exception.
+     *
+     * @since [*next-version*]
+     *
+     * @param string|Stringable|null $message  The error message, if any.
+     * @param int|null               $code     The error code, if any.
+     * @param RootException|null     $previous The inner exception for chaining, if any.
+     * @param callable               $callable The callable that caused the problem, if any.
+     * @param Traversable|array      $args     The associated list of arguments, if any.
+     *
+     * @return InvocationExceptionInterface The new exception.
+     */
+    abstract protected function _createInvocationExceptionInterface(
+        $message = null,
+        $code = null,
+        RootException $previous = null,
+        callable $callable = null,
+        $args = null
+    );
 }
