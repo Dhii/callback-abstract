@@ -84,5 +84,5 @@ trait ArgsAwareTrait
      *
      * @return string The translated string.
      */
-    abstract protected function __($string, $args = [], $context = null);
+    abstract protected function __($string, $args = array(), $context = null);
 }
