@@ -48,11 +48,12 @@ class InvokeCallableCapableTraitTest extends TestCase
         $mock->method('_createInvocationException')
             ->will($this->returnCallback(function ($message = '', $code = 0, $inner = null, $callable = null, $args = null) {
                 $e = $this->createInvocationException($message, $code, $inner, $callable, $args);
+
                 return $e;
             }));
 
         $mock->method('_normalizeArray')
-            ->will($this->returnCallback(function($list) {
+            ->will($this->returnCallback(function ($list) {
                 return $list instanceof Traversable
                     ? iterator_to_array($list)
                     : $list;
@@ -80,6 +81,7 @@ class InvokeCallableCapableTraitTest extends TestCase
             implode(', ', $interfaceNames),
         ]);
         eval($definition);
+
         return $this->mock($paddingClassName);
     }
 
@@ -88,11 +90,11 @@ class InvokeCallableCapableTraitTest extends TestCase
      *
      * @since [*next-version*]
      *
-     * @param string $message The error message, if any.
-     * @param int $code The error code, if any.
-     * @param null $inner The inner exception, if any.
-     * @param null $callable The callable that caused the problem, if any.
-     * @param null $args The args that the callable was invoked with, if any.
+     * @param string $message  The error message, if any.
+     * @param int    $code     The error code, if any.
+     * @param null   $inner    The inner exception, if any.
+     * @param null   $callable The callable that caused the problem, if any.
+     * @param null   $args     The args that the callable was invoked with, if any.
      *
      * @return InvocationExceptionInterface The new exception.
      */

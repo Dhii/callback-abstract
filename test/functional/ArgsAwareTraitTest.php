@@ -36,7 +36,7 @@ class ArgsAwareTraitTest extends TestCase
 
         $mock->method('__')->will($this->returnArgument(0));
         $mock->method('_createInvalidArgumentException')->willReturnCallback(
-            function($message) {
+            function ($message) {
                 return new InvalidArgumentException($message);
             }
         );
