@@ -58,7 +58,7 @@ trait InvokeCallbackCapableTrait
      *
      * @since [*next-version*]
      *
-     * @return callable
+     * @return callable The callback.
      */
     abstract protected function _getCallback();
 
