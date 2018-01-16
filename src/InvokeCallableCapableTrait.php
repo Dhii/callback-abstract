@@ -39,9 +39,8 @@ trait InvokeCallableCapableTrait
 
         try {
             $result = call_user_func_array($callable, $args);
-        }
-        catch (RootException $e) {
-            throw $this->_createInvocationExceptionInterface(
+        } catch (RootException $e) {
+            throw $this->_createInvocationException(
                 $this->__('There was an error during invocation'),
                 null,
                 $e,
@@ -97,7 +96,7 @@ trait InvokeCallableCapableTrait
      *
      * @return string The translated string.
      */
-    abstract protected function __($string, $args = [], $context = null);
+    abstract protected function __($string, $args = array(), $context = null);
 
     /**
      * Creates a new Invocation exception.
@@ -112,7 +111,7 @@ trait InvokeCallableCapableTrait
      *
      * @return InvocationExceptionInterface The new exception.
      */
-    abstract protected function _createInvocationExceptionInterface(
+    abstract protected function _createInvocationException(
         $message = null,
         $code = null,
         RootException $previous = null,
