@@ -41,7 +41,7 @@ class CallbackAwareTraitTest extends TestCase
         $subject = $this->createInstance();
         $reflect = $this->reflect($subject);
 
-        $reflect->_setCallback($callback = function() {});
+        $reflect->_setCallback($callback = function () {});
 
         $this->assertSame($callback, $reflect->_getCallback());
     }
