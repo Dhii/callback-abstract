@@ -67,16 +67,16 @@
         },
         {
             "name": "dhii/exception-interface",
-            "version": "v0.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dhii/exception-interface.git",
-                "reference": "fe64b30f67830474683357f77dc4a097bf84767e"
+                "reference": "0605da67fad415560023ff4d387f310642f7648e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dhii/exception-interface/zipball/fe64b30f67830474683357f77dc4a097bf84767e",
-                "reference": "fe64b30f67830474683357f77dc4a097bf84767e",
+                "url": "https://api.github.com/repos/Dhii/exception-interface/zipball/0605da67fad415560023ff4d387f310642f7648e",
+                "reference": "0605da67fad415560023ff4d387f310642f7648e",
                 "shasum": ""
             },
             "require": {
@@ -90,6 +90,11 @@
                 "ptrofimov/xpmock": "^1.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "0.2.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Dhii\\Exception\\": "src"
@@ -106,7 +111,7 @@
                 }
             ],
             "description": "Interfaces for most common exceptions",
-            "time": "2017-09-01T18:00:26+00:00"
+            "time": "2017-12-28T08:50:05+00:00"
         },
         {
             "name": "dhii/invocable-interface",
