@@ -42,7 +42,7 @@ trait InvokeCallbackCapableTrait
              * `_invokeCallback()` would throw `InvalidArgumentException`
              * is if the callback is wrong. But we cannot let it bubble
              * up, because it is not an argument to this method. Therefore,
-             * catch it, wrap, and trow a more appropriate exception.
+             * catch it, wrap, and throw a more appropriate exception.
              */
             throw $this->_createOutOfRangeException(
                 $this->__('Invalid callback'),
