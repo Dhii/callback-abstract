@@ -142,7 +142,7 @@ class ArgsAwareTraitTest extends TestCase
      */
     public function testSetGetArgsFailure()
     {
-        $args = new \stdClass();
+        $args = uniqid('args');
 
         $exception = $this->createInvalidArgumentException('Invalid args list');
         $subject = $this->createInstance();
