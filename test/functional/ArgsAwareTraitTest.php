@@ -117,25 +117,6 @@ class ArgsAwareTraitTest extends TestCase
     }
 
     /**
-     * Tests whether setting and retrieving args works correctly when they are a Traversable.
-     *
-     * @since [*next-version*]
-     */
-    public function testSetGetArgsTraversable()
-    {
-        $_args = [uniqid('arg1'), uniqid('arg2')];
-        $args = $this->createTraversable($_args);
-
-        $subject = $this->createInstance();
-        $_subject = $this->reflect($subject);
-
-        $_subject->_setArgs($args);
-        $result = $_subject->_getArgs();
-
-        $this->assertEquals($args, $result, 'Retrieved args (traversable) are wrong');
-    }
-
-    /**
      * Tests whether setting and retrieving args works correctly.
      *
      * @since [*next-version*]
