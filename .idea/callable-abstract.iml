@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="Dhii\Invocation" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/test/functional" isTestSource="true" packagePrefix="Dhii\Invocation\FuncTest" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" packagePrefix="Dhii\Invocation\UnitTest" generated="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

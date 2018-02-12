@@ -6,6 +6,7 @@ use Dhii\Util\String\StringableInterface as Stringable;
 use Dhii\Invocation\Exception\InvocationExceptionInterface;
 use Exception as RootException;
 use InvalidArgumentException;
+use stdClass;
 use Traversable;
 
 /**
@@ -20,12 +21,12 @@ trait InvokeCallableCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param callable          $callable The callable to invoke.
-     * @param array|Traversable $args     The arguments to invoke the callable with.
+     * @param callable                   $callable The callable to invoke.
+     * @param array|Traversable|stdClass $args     The arguments to invoke the callable with.
      *
-     * @throws InvalidArgumentException If the callable is not callable.
-     * @throws InvalidArgumentException if the args are not a valid list.
-     * @throws RootException            For errors that happen during invocation.
+     * @throws InvalidArgumentException     If the callable is not callable.
+     * @throws InvalidArgumentException     if the args are not a valid list.
+     * @throws InvocationExceptionInterface For errors that happen during invocation.
      *
      * @return mixed The result of the invocation.
      */
@@ -57,7 +58,7 @@ trait InvokeCallableCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param array|Traversable $value The value to normalize.
+     * @param array|stdClass|Traversable $value The value to normalize.
      *
      * @throws InvalidArgumentException If value cannot be normalized.
      *

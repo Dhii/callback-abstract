@@ -1,8 +1,9 @@
 <?php
 
-namespace Dhii\Invocation\FuncTest;
+namespace Dhii\Invocation\UnitTest;
 
 use ArrayIterator;
+use stdClass;
 use Traversable;
 use Xpmock\TestCase;
 use InvalidArgumentException;
@@ -28,21 +29,41 @@ class ArgsAwareTraitTest extends TestCase
      *
      * @since [*next-version*]
      *
-     * @return MockObject
+     * @param array $methods The methods to mock.
+     *
+     * @return MockObject The new instance.
      */
-    public function createInstance()
+    public function createInstance($methods = [])
     {
+        is_array($methods) && $methods = $this->mergeValues($methods, [
+            '__',
+        ]);
+
         $mock = $this->getMockBuilder(static::TEST_SUBJECT_CLASSNAME)
+            ->setMethods($methods)
             ->getMockForTrait();
 
-        $mock->method('__')->will($this->returnArgument(0));
-        $mock->method('_createInvalidArgumentException')->willReturnCallback(
-            function ($message) {
-                return new InvalidArgumentException($message);
-            }
-        );
+        $mock->method('__')
+            ->will($this->returnArgument(0));
 
         return $mock;
+    }
+
+    /**
+     * Merges the values of two arrays.
+     *
+     * The resulting product will be a numeric array where the values of both inputs are present, without duplicates.
+     *
+     * @since [*next-version*]
+     *
+     * @param array $destination The base array.
+     * @param array $source      The array with more keys.
+     *
+     * @return array The array which contains unique values
+     */
+    public function mergeValues($destination, $source)
+    {
+        return array_keys(array_merge(array_flip($destination), array_flip($source)));
     }
 
     /**
@@ -94,15 +115,15 @@ class ArgsAwareTraitTest extends TestCase
     }
 
     /**
-     * Tests whether setting and retrieving args works correctly.
+     * Tests whether `_setArgs()` works as expected.
      *
      * @since [*next-version*]
      */
-    public function testSetGetArgs()
+    public function testSetArgs()
     {
         $args = ['Apple', 'Banana'];
 
-        $subject = $this->createInstance();
+        $subject = $this->createInstance(['_normalizeIterable']);
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
@@ -110,31 +131,44 @@ class ArgsAwareTraitTest extends TestCase
             ->with($args)
             ->will($this->returnArgument(0));
 
+        $_subject->args = null;
         $_subject->_setArgs($args);
-        $result = $_subject->_getArgs();
+        $result = $_subject->args;
 
         $this->assertEquals($args, $result, 'Assigned args are wrong');
     }
 
     /**
-     * Tests whether setting and retrieving args works correctly.
+     * Tests whether `_getArgs()` works correctly.
      *
      * @since [*next-version*]
      */
-    public function testSetGetArgsFailure()
+    public function testGetArgs()
     {
-        $args = uniqid('args');
+        $args = [uniqid('key'), uniqid('val')];
 
         $exception = $this->createInvalidArgumentException('Invalid args list');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
-        $subject->expects($this->exactly(1))
-            ->method('_normalizeIterable')
-            ->with($args)
-            ->will($this->throwException($exception));
+        $_subject->args = $args;
+        $result = $_subject->_getArgs($args);
+        $this->assertEquals($args, $result);
+    }
 
-        $this->setExpectedException('InvalidArgumentException');
-        $_subject->_setArgs($args);
+    /**
+     * Tests whether `_getArgs()` works correctly when no value was previously set.
+     *
+     * @since [*next-version*]
+     */
+    public function testGetArgsDefault()
+    {
+        $exception = $this->createInvalidArgumentException('Invalid args list');
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $_subject->args = null;
+        $result = $_subject->_getArgs();
+        $this->assertEquals([], $result, 'A wrong default args list was returned');
     }
 }

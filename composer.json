@@ -21,9 +21,18 @@
         "dhii/stringable-interface": "^0.1",
         "dhii/invocable-interface": "^0.1"
     },
+    "suggest": {
+        "dhii/normalization-helper-base": "To normalize lists and other types"
+    },
     "autoload": {
         "psr-4": {
             "Dhii\\Invocation\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dhii\\Invocation\\UnitTest\\": "test/unit",
+            "Dhii\\Invocation\\FuncTest\\": "test/functional"
         }
     },
     "scripts": {

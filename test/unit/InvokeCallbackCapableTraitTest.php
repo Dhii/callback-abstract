@@ -197,6 +197,7 @@ class InvokeCallbackCapableTraitTest extends TestCase
         $subject = $this->createInstance([
             '_getCallback',
             '_invokeCallable',
+            '_normalizeIterable',
         ]);
         $_subject = $this->reflect($subject);
 
@@ -209,6 +210,10 @@ class InvokeCallbackCapableTraitTest extends TestCase
             ->will($this->returnCallback(function ($callback, $args) {
                 return call_user_func_array($callback, $args);
             }));
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->returnArgument(0));
 
         $result = $_subject->_invokeCallback($args);
         $this->assertEquals($args, $result, 'Result of invocation is wrong');
@@ -221,23 +226,56 @@ class InvokeCallbackCapableTraitTest extends TestCase
      */
     public function testInvokeCallbackFailureInvalidArgs()
     {
-        $args = new \stdClass();
-        $subject = $this->createInstance(['_createInvalidArgumentException']);
+        $args = uniqid('args');
+        $exception = $this->createInvalidArgumentException('Invalid args list');
+        $subject = $this->createInstance(['_createInvalidArgumentException', '_normalizeIterable']);
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
-                ->method('_createInvalidArgumentException')
-                ->with(
-                    $this->isType('string'),
-                    null,
-                    null,
-                    $args
-                )
-                ->will($this->returnCallback(function ($message, $code, $previous, $args) {
-                    return $this->createInvalidArgumentException($message, $code, $previous, $args);
-                }));
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->throwException($exception));
 
         $this->setExpectedException('InvalidArgumentException');
+        $_subject->_invokeCallback($args);
+    }
+
+    /**
+     * Tests that `_invokeCallback()` fails correctly when the normalized args list passed to `_invokeCallable()` is invalid.
+     *
+     * @since [*next-version*]
+     */
+    public function testInvokeCallbackFailureInvokeCallableInvalidArgs()
+    {
+        $cb = function () {};
+        $args = uniqid('list-that-cannot-be-normalized-to-array');
+        $innerException = $this->createInvalidArgumentException('Invalid args list');
+        $exception = $this->createOutOfRangeException('Could not normalize args list to array');
+        $subject = $this->createInstance(['_createInvalidArgumentException', '_normalizeIterable']);
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_getCallback')
+            ->will($this->returnValue($cb));
+        $subject->expects($this->exactly(1))
+            ->method('_invokeCallable')
+            ->with($cb, $args)
+            ->will($this->throwException($innerException));
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->returnArgument(0));
+        $subject->expects($this->exactly(1))
+            ->method('_createOutOfRangeException')
+            ->with(
+                $this->isType('string'),
+                null,
+                $innerException,
+                $cb
+            )
+            ->will($this->returnValue($exception));
+
+        $this->setExpectedException('OutOfRangeException');
         $_subject->_invokeCallback($args);
     }
 

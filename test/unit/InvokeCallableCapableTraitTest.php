@@ -8,6 +8,7 @@ use Xpmock\TestCase;
 use Dhii\Invocation\InvokeCallableCapableTrait as TestSubject;
 use InvalidArgumentException;
 use Exception as RootException;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Tests {@see TestSubject}.
@@ -28,7 +29,7 @@ class InvokeCallableCapableTraitTest extends TestCase
      *
      * @since [*next-version*]
      *
-     * @return object
+     * @return MockObject
      */
     public function createInstance()
     {
@@ -133,7 +134,6 @@ class InvokeCallableCapableTraitTest extends TestCase
         $callable = function () {
             return func_get_args();
         };
-
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
