@@ -241,6 +241,45 @@ class InvokeCallbackCapableTraitTest extends TestCase
     }
 
     /**
+     * Tests that `_invokeCallback()` fails correctly when the normalized args list passed to `_invokeCallable()` is invalid.
+     *
+     * @since [*next-version*]
+     */
+    public function testInvokeCallbackFailureInvokeCallableInvalidArgs()
+    {
+        $cb = function () {};
+        $args = uniqid('list-that-cannot-be-normalized-to-array');
+        $innerException = $this->createInvalidArgumentException('Invalid args list');
+        $exception = $this->createOutOfRangeException('Could not normalize args list to array');
+        $subject = $this->createInstance(['_createInvalidArgumentException', '_normalizeIterable']);
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_getCallback')
+            ->will($this->returnValue($cb));
+        $subject->expects($this->exactly(1))
+            ->method('_invokeCallable')
+            ->with($cb, $args)
+            ->will($this->throwException($innerException));
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->returnArgument(0));
+        $subject->expects($this->exactly(1))
+            ->method('_createOutOfRangeException')
+            ->with(
+                $this->isType('string'),
+                null,
+                $innerException,
+                $cb
+            )
+            ->will($this->returnValue($exception));
+
+        $this->setExpectedException('OutOfRangeException');
+        $_subject->_invokeCallback($args);
+    }
+
+    /**
      * Tests that `_invokeCallback()` fails correctly if `_invokeCallable()` throws `InvalidArgumentException`.
      *
      * @since [*next-version*]
