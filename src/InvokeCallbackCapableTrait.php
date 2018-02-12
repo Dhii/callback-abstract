@@ -3,6 +3,7 @@
 namespace Dhii\Invocation;
 
 use InvalidArgumentException;
+use stdClass;
 use Traversable;
 use Exception as RootException;
 use Dhii\Invocation\Exception\InvocationExceptionInterface;
@@ -19,7 +20,7 @@ trait InvokeCallbackCapableTrait
     /**
      * @since [*next-version*]
      *
-     * @param Traversable|array The list of arguments for the invocation.
+     * @param Traversable|array|stdClass The list of arguments for the invocation.
      *
      * @throws InvalidArgumentException     If args are not a valid list.
      * @throws OutOfRangeException          If callback is invalid.
@@ -64,11 +65,11 @@ trait InvokeCallbackCapableTrait
      *
      * @since [*next-version*]
      *
-     * @param callable          $callable The callable to invoke.
-     * @param array|Traversable $args     The arguments to invoke the callable with.
+     * @param callable                   $callable The callable to invoke.
+     * @param array|Traversable|stdClass $args     The arguments to invoke the callable with.
      *
      * @throws InvalidArgumentException     If the callable is not callable.
-     * @throws InvalidArgumentException     If the args are not a valid list.
+     * @throws InvalidArgumentException     if the args are not a valid list.
      * @throws InvocationExceptionInterface For errors that happen during invocation.
      *
      * @return mixed The result of the invocation.
