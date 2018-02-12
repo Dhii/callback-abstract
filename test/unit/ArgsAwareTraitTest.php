@@ -155,4 +155,20 @@ class ArgsAwareTraitTest extends TestCase
         $result = $_subject->_getArgs($args);
         $this->assertEquals($args, $result);
     }
+
+    /**
+     * Tests whether `_getArgs()` works correctly when no value was previously set.
+     *
+     * @since [*next-version*]
+     */
+    public function testGetArgsDefault()
+    {
+        $exception = $this->createInvalidArgumentException('Invalid args list');
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $_subject->args = null;
+        $result = $_subject->_getArgs();
+        $this->assertEquals([], $result, 'A wrong default args list was returned');
+    }
 }
