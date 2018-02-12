@@ -26,6 +26,12 @@
             "Dhii\\Invocation\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Dhii\\Invocation\\UnitTest\\": "test/unit",
+            "Dhii\\Invocation\\FuncTest\\": "test/functional"
+        }
+    },
     "scripts": {
         "test": "phpunit",
         "csfix": "php-cs-fixer fix -vvv"
