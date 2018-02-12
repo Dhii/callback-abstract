@@ -197,6 +197,7 @@ class InvokeCallbackCapableTraitTest extends TestCase
         $subject = $this->createInstance([
             '_getCallback',
             '_invokeCallable',
+            '_normalizeIterable',
         ]);
         $_subject = $this->reflect($subject);
 
@@ -209,6 +210,10 @@ class InvokeCallbackCapableTraitTest extends TestCase
             ->will($this->returnCallback(function ($callback, $args) {
                 return call_user_func_array($callback, $args);
             }));
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->returnArgument(0));
 
         $result = $_subject->_invokeCallback($args);
         $this->assertEquals($args, $result, 'Result of invocation is wrong');
@@ -221,21 +226,15 @@ class InvokeCallbackCapableTraitTest extends TestCase
      */
     public function testInvokeCallbackFailureInvalidArgs()
     {
-        $args = new \stdClass();
-        $subject = $this->createInstance(['_createInvalidArgumentException']);
+        $args = uniqid('args');
+        $exception = $this->createInvalidArgumentException('Invalid args list');
+        $subject = $this->createInstance(['_createInvalidArgumentException', '_normalizeIterable']);
         $_subject = $this->reflect($subject);
 
         $subject->expects($this->exactly(1))
-                ->method('_createInvalidArgumentException')
-                ->with(
-                    $this->isType('string'),
-                    null,
-                    null,
-                    $args
-                )
-                ->will($this->returnCallback(function ($message, $code, $previous, $args) {
-                    return $this->createInvalidArgumentException($message, $code, $previous, $args);
-                }));
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->throwException($exception));
 
         $this->setExpectedException('InvalidArgumentException');
         $_subject->_invokeCallback($args);
