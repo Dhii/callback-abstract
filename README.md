@@ -4,7 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/Dhii/callback-abstract/badges/gpa.svg)](https://codeclimate.com/github/Dhii/callback-abstract)
 [![Test Coverage](https://codeclimate.com/github/Dhii/callback-abstract/badges/coverage.svg)](https://codeclimate.com/github/Dhii/callback-abstract/coverage)
 [![Latest Stable Version](https://poser.pugx.org/dhii/callback-abstract/version)](https://packagist.org/packages/dhii/callback-abstract)
-[![Latest Unstable Version](https://poser.pugx.org/dhii/code-php/v/unstable)](https://packagist.org/packages/dhii/code-php)
+[![Latest Unstable Version](https://poser.pugx.org/dhii/callback-abstract/v/unstable)](https://packagist.org/packages/dhii/callback-abstract)
 [![This package complies with Dhii standards](https://img.shields.io/badge/Dhii-Compliant-green.svg?style=flat-square)][Dhii]
 
 Traits for objects that are aware of callback functions.
