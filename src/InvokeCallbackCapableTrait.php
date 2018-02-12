@@ -29,10 +29,7 @@ trait InvokeCallbackCapableTrait
      */
     protected function _invokeCallback($args = array())
     {
-        if (!is_array($args) && !($args instanceof Traversable)) {
-            throw $this->_createInvalidArgumentException($this->__('Invalid argument list'), null, null, $args);
-        }
-
+        $args = $this->_normalizeIterable($args);
         $callback = $this->_getCallback();
 
         try {
@@ -77,6 +74,21 @@ trait InvokeCallbackCapableTrait
      * @return mixed The result of the invocation.
      */
     abstract protected function _invokeCallable($callable, $args);
+
+    /**
+     * Normalizes an iterable.
+     *
+     * Makes sure that the return value can be iterated over.
+     *
+     * @since [*next-version*]
+     *
+     * @param mixed $iterable The iterable to normalize.
+     *
+     * @throws InvalidArgumentException If the iterable could not be normalized.
+     *
+     * @return array|Traversable|stdClass The normalized iterable.
+     */
+    abstract protected function _normalizeIterable($iterable);
 
     /**
      * Creates a new  Out Of Range exception.
