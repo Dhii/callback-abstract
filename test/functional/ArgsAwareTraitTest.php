@@ -7,6 +7,7 @@ use Traversable;
 use Xpmock\TestCase;
 use InvalidArgumentException;
 use Dhii\Invocation\ArgsAwareTrait as TestSubject;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Tests {@see TestSubject}.
@@ -27,7 +28,7 @@ class ArgsAwareTraitTest extends TestCase
      *
      * @since [*next-version*]
      *
-     * @return object
+     * @return MockObject
      */
     public function createInstance()
     {
@@ -40,6 +41,24 @@ class ArgsAwareTraitTest extends TestCase
                 return new InvalidArgumentException($message);
             }
         );
+
+        return $mock;
+    }
+
+    /**
+     * Creates a new Invalid Argument exception.
+     *
+     * @since [*next-version*]
+     *
+     * @param string $message The exception message.
+     *
+     * @return MockObject|InvalidArgumentException The new exception.
+     */
+    public function createInvalidArgumentException($message = '')
+    {
+        $mock = $this->getMockBuilder('InvalidArgumentException')
+            ->setConstructorArgs([$message])
+            ->getMock();
 
         return $mock;
     }
@@ -86,6 +105,11 @@ class ArgsAwareTraitTest extends TestCase
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
 
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->returnArgument(0));
+
         $_subject->_setArgs($args);
         $result = $_subject->_getArgs();
 
@@ -120,8 +144,14 @@ class ArgsAwareTraitTest extends TestCase
     {
         $args = new \stdClass();
 
+        $exception = $this->createInvalidArgumentException('Invalid args list');
         $subject = $this->createInstance();
         $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeIterable')
+            ->with($args)
+            ->will($this->throwException($exception));
 
         $this->setExpectedException('InvalidArgumentException');
         $_subject->_setArgs($args);
