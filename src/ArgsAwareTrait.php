@@ -18,7 +18,7 @@ trait ArgsAwareTrait
      *
      * @since [*next-version*]
      *
-     * @var array|Traversable|stdClass
+     * @var array|Traversable|stdClass|null
      */
     protected $args;
 
@@ -31,7 +31,9 @@ trait ArgsAwareTrait
      */
     protected function _getArgs()
     {
-        return $this->args;
+        return !is_null($this->args)
+            ? $this->args
+            : array();
     }
 
     /**
