@@ -1,6 +1,7 @@
 test export-ignore
 nbproject export-ignore
 .codeclimate.yml export-ignore
+.idea export-ignore
 .phan export-ignore
 .php_cs export-ignore
 .travis.yml export-ignore
