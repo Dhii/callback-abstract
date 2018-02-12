@@ -3,7 +3,6 @@
 namespace Dhii\Invocation\UnitTest;
 
 use ArrayIterator;
-use stdClass;
 use Traversable;
 use Xpmock\TestCase;
 use InvalidArgumentException;

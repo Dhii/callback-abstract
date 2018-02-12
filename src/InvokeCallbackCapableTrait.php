@@ -30,7 +30,7 @@ trait InvokeCallbackCapableTrait
      */
     protected function _invokeCallback($args = array())
     {
-        $args = $this->_normalizeIterable($args);
+        $args     = $this->_normalizeIterable($args);
         $callback = $this->_getCallback();
 
         try {
