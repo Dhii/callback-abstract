@@ -29,10 +29,14 @@ trait NormalizeMethodCallableCapableTrait
      * @throws InvalidArgumentException If the argument is not stringable and not a list.
      * @throws OutOfRangeException      If the argument does not contain enough parts to make a callable, if one of the parts is invalid.
      *
-     * @return array An array, where the first element is a class name, and the second element is the name of a method.
+     * @return array An array, where the first element is an object or a class name, and the second element is the name of a method.
      */
     protected function _normalizeMethodCallable($callable)
     {
+        if (is_object($callable) && is_callable($callable)) {
+            return array($callable, '__invoke');
+        }
+
         $amtPartsRequired = 2; // Number of parts required for a valid callable
         $origCallable     = $callable; // Preserving the original value for reporting
 
