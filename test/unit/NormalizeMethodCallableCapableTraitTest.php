@@ -131,6 +131,27 @@ class NormalizeMethodCallableCapableTraitTest extends TestCase
     }
 
     /**
+     * Creates a new invocable object.
+     *
+     * @since [*next-version*]
+     *
+     * @return MockObject An object that has an `__invoke()` method.
+     */
+    public function createInvocable($action = null)
+    {
+        $mock = $this->getMockBuilder(uniqid('MyInvocable'))
+            ->setMethods(['__invoke'])
+            ->getMock();
+
+        is_callable($action) && $mock->method('__invoke')
+            ->will($this->returnCallback(function () use ($action) {
+                return call_user_func_array($action, func_get_args());
+            }));
+
+        return $mock;
+    }
+
+    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -144,6 +165,21 @@ class NormalizeMethodCallableCapableTraitTest extends TestCase
             $subject,
             'A valid instance of the test subject could not be created.'
         );
+    }
+
+    /**
+     * Test that `_normalizeMethodCallable()` works as expected when given an invocable object.
+     *
+     * @since [*next-version*]
+     */
+    public function testNormalizeMethodCallableInvocable()
+    {
+        $callable = $this->createInvocable();
+        $subject = $this->createInstance(['_normalizeString', '_normalizeArray']);
+        $_subject = $this->reflect($subject);
+
+        $result = $_subject->_normalizeMethodCallable($callable);
+        $this->assertEquals([$callable, '__invoke'], $result, 'Result of normalization is wrong');
     }
 
     /**
