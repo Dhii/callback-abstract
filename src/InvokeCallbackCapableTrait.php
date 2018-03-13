@@ -111,25 +111,6 @@ trait InvokeCallbackCapableTrait
     );
 
     /**
-     * Creates a new invalid argument exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string|Stringable|null $message  The error message, if any.
-     * @param int|null               $code     The error code, if any.
-     * @param RootException|null     $previous The inner exception for chaining, if any.
-     * @param mixed|null             $argument The invalid argument, if any.
-     *
-     * @return InvalidArgumentException The new exception.
-     */
-    abstract protected function _createInvalidArgumentException(
-        $message = null,
-        $code = null,
-        RootException $previous = null,
-        $argument = null
-    );
-
-    /**
      * Translates a string, and replaces placeholders.
      *
      * @since [*next-version*]
