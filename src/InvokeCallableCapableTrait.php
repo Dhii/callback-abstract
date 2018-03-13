@@ -3,6 +3,7 @@
 namespace Dhii\Invocation;
 
 use Closure;
+use Dhii\Exception\InternalExceptionInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Dhii\Invocation\Exception\InvocationExceptionInterface;
 use Exception as RootException;
@@ -34,7 +35,8 @@ trait InvokeCallableCapableTrait
      *
      * @throws InvalidArgumentException     If the callable is not callable.
      * @throws InvalidArgumentException     if the args are not a valid list.
-     * @throws InvocationExceptionInterface For errors that happen during invocation.
+     * @throws InvocationExceptionInterface If the callable cannot be invoked.
+     * @throws InternalExceptionInterface   If a problem occurs during invocation.
      *
      * @return mixed The result of the invocation.
      */
@@ -155,9 +157,9 @@ trait InvokeCallableCapableTrait
      *
      * @param string|Stringable|null $message  The error message, if any.
      * @param int|null               $code     The error code, if any.
-     * @param Throwable              $previous The internal cause for this problem.
+     * @param RootException          $previous The internal cause for this problem.
      *
-     * @return InvocationExceptionInterface The new exception.
+     * @return InternalExceptionInterface The new exception.
      */
     abstract protected function _createInternalException(
         $message = null,
