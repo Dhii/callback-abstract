@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Added
+- `CreateReflectionForCallableCapableTrait`.
+- `NormalizeCallableCapableTrait`.
+- `NormalizeMethodCallableCapableTrait`.
+- `ValidateParamsCapableTrait`.
+
+### Changed
+- `InvokeCallableCapableTrait` now throws an `InternalExceptionInterface` for all exceptions that occur while actually
+invoking the callable. Specifically, this applies to exceptions thrown inside the callable.
+- `InvokeCallableCapableTrait` now throws an `InvocationExceptionInterface` if the callable cannot be invoked.
+Specifically, this applies if the arguments do not match the signature of the callable.
+- `ArgsAwareTrait#_getArgs()` now returns an empty list by default.
+- List of arguments is now allowed to be an `stdClass` object, as this is a valid iterable. 
+- `InvokeCallbackCapableTrait` no longer needs `_createInvalidArgumentException()`.
 
 ## [0.1-alpha2] - 2018-02-12
 ### Fixed

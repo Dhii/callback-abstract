@@ -11,7 +11,7 @@ use Dhii\Util\String\StringableInterface as Stringable;
 use OutOfRangeException;
 
 /**
- * Something that has a callback.
+ * Something that can invoke an internal callback.
  *
  * @since [*next-version*]
  */
@@ -104,25 +104,6 @@ trait InvokeCallbackCapableTrait
      * @return OutOfRangeException The new exception.
      */
     abstract protected function _createOutOfRangeException(
-        $message = null,
-        $code = null,
-        RootException $previous = null,
-        $argument = null
-    );
-
-    /**
-     * Creates a new invalid argument exception.
-     *
-     * @since [*next-version*]
-     *
-     * @param string|Stringable|null $message  The error message, if any.
-     * @param int|null               $code     The error code, if any.
-     * @param RootException|null     $previous The inner exception for chaining, if any.
-     * @param mixed|null             $argument The invalid argument, if any.
-     *
-     * @return InvalidArgumentException The new exception.
-     */
-    abstract protected function _createInvalidArgumentException(
         $message = null,
         $code = null,
         RootException $previous = null,
