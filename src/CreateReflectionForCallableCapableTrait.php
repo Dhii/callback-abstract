@@ -71,19 +71,6 @@ trait CreateReflectionForCallableCapableTrait
     abstract public function _normalizeCallable($callable);
 
     /**
-     * Normalizes a value into an array.
-     *
-     * @since [*next-version*]
-     *
-     * @param array|stdClass|Traversable $value The value to normalize.
-     *
-     * @throws InvalidArgumentException If value cannot be normalized.
-     *
-     * @return array The normalized value.
-     */
-    abstract protected function _normalizeArray($value);
-
-    /**
      * Normalizes a value to its string representation.
      *
      * The values that can be normalized are any scalar values, as well as
