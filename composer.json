@@ -23,7 +23,9 @@
         "dhii/validation-interface": "0.2-alpha1|0.2-alpha2"
     },
     "suggest": {
-        "dhii/normalization-helper-base": "To normalize lists and other types"
+        "dhii/normalization-helper-base": "To normalize lists and other types",
+        "dhii/args-list-validation": "For args list validation logic",
+        "dhii/validation-base": "For validation exceptions and their factories"
     },
     "autoload": {
         "psr-4": {
