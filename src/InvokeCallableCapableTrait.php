@@ -2,7 +2,6 @@
 
 namespace Dhii\Invocation;
 
-use Closure;
 use Dhii\Exception\InternalExceptionInterface;
 use Dhii\Util\String\StringableInterface as Stringable;
 use Dhii\Invocation\Exception\InvocationExceptionInterface;
@@ -14,9 +13,7 @@ use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
 use stdClass;
-use Throwable;
 use Traversable;
-use TypeError;
 
 /**
  * Functionality for invoking a callable.
