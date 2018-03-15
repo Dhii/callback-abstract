@@ -11,7 +11,7 @@ use Dhii\Util\String\StringableInterface as Stringable;
 use OutOfRangeException;
 
 /**
- * Something that has a callback.
+ * Something that can invoke an internal callback.
  *
  * @since [*next-version*]
  */
