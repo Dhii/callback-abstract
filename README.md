@@ -13,7 +13,7 @@ Traits for objects that are aware of callback functions.
 - [`ArgsAwareTrait`][ArgsAwareTrait] - Functionality for awareness of an argument list.
 - [`CallbackAwareTrait`][CallbackAwareTrait] - Functionality for awareness of a callback.
 - [`InvokeCallableCapableTrait`][InvokeCallableCapableTrait] - Allows structured invocation of any callable.
-- [`InvokeCallableCapableTrait`][InvokeCallableCapableTrait] - Allows structured invocation of an assigned callback.
+- [`InvokeCallbackCapableTrait`][InvokeCallbackCapableTrait] - Allows structured invocation of an assigned callback.
 
 [Dhii]: https://github.com/Dhii/dhii
 
