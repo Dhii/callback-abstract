@@ -179,6 +179,22 @@ class InvokeCallableCapableTraitTest extends TestCase
     }
 
     /**
+     * Creates a new invocable object.
+     *
+     * @since [*next-version*]
+     *
+     * @return MockObject An object that has an `__invoke()` method.
+     */
+    public function createCallable()
+    {
+        $mock = $this->getMockBuilder('MyCallable')
+            ->setMethods(['__invoke'])
+            ->getMock();
+
+        return $mock;
+    }
+
+    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -276,53 +292,46 @@ class InvokeCallableCapableTraitTest extends TestCase
         $this->assertEquals($length, $result, 'Invocation produced a wrong result');
     }
 
-    /*
-     * Tests whether invoking a callable failure as expected when attempting to invoke something that is not callable.
+    /**
+     * Tests that `_invokeCallable()` works as expected when given an invocable object.
      *
      * @since [*next-version*]
      */
-//    public function testInvokeCallableFailureNotCallable()
-//    {
-//        $args = ['Apple', 'Banana'];
-//        $callable = new \stdClass();
-//
-//        $subject = $this->createInstance();
-//        $_subject = $this->reflect($subject);
-//
-//        $this->setExpectedException('InvalidArgumentException');
-//        $result = $_subject->_invokeCallable($callable, $args);
-//
-//        $this->assertEquals($args, $result, 'Invocation produced a wrong result');
-//    }
+    public function testInvokeCallableObject()
+    {
+        $arg = uniqid('string');
+        $args = [$arg];
+        $object = $this->createCallable();
+        $method = '__invoke';
+        $reflection = $this->createReflectionMethod($object, $method, ['invokeArgs']);
+        $val = uniqid('val');
+        $params = $reflection->getParameters();
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
 
-    /*
-     * Tests whether invoking a callable fails as expected if the callable throws.
-     *
-     * @since [*next-version*]
-     */
-//    public function testInvokeCallableInvocationException()
-//    {
-//        $args = ['Apple', 'Banana'];
-//        $innerMessage = uniqid('inner-message');
-//        $exception = new RootException($innerMessage);
-//        $callable = function () use ($exception) {
-//            throw $exception;
-//        };
-//
-//        $subject = $this->createInstance();
-//        $_subject = $this->reflect($subject);
-//
-//        $subject->expects($this->exactly(1))
-//            ->method('_createInvocationException')
-//            ->with(
-//                $this->isType('string'),
-//                $this->anything(),
-//                $exception,
-//                $callable,
-//                $args
-//            );
-//
-//        $this->setExpectedException('Dhii\Invocation\Exception\InvocationExceptionInterface');
-//        $_subject->_invokeCallable($callable, $args);
-//    }
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeArray')
+            ->with($args)
+            ->will($this->returnArgument(0));
+        $subject->expects($this->exactly(1))
+            ->method('_createReflectionForCallable')
+            ->with($object)
+            ->will($this->returnValue($reflection));
+        $subject->expects($this->exactly(1))
+            ->method('_validateParams')
+            ->with($args, $params);
+
+        $object->expects($this->exactly(1))
+            ->method($method)
+            ->with($arg)
+            ->will($this->returnValue($val));
+
+        $reflection->expects($this->exactly(1))
+            ->method('invokeArgs')
+            ->with($object, $args)
+            ->will($this->returnValue($val));
+
+        $result = $_subject->_invokeCallable($object, $args);
+        $this->assertEquals($val, $result, 'Invocation produced a wrong result');
+    }
 }

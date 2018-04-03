@@ -9,8 +9,6 @@ use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
 use Dhii\Util\String\StringableInterface as Stringable;
-use stdClass;
-use Traversable;
 
 /**
  * Functionality for creating a reflection for a callable.
