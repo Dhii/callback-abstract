@@ -56,9 +56,13 @@ trait InvokeCallableCapableTrait
         // Invoke the callable
         try {
             if ($reflection instanceof ReflectionMethod) {
-                $target = is_object($callable[0])
-                    ? $callable[0]
-                    : null;
+                if (is_object($callable)) {
+                    $target = $callable;
+                } else {
+                    $target = is_object($callable[0])
+                        ? $callable[0]
+                        : null;
+                }
 
                 return $reflection->invokeArgs($target, $args);
             } else {
