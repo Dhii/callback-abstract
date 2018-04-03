@@ -179,6 +179,22 @@ class InvokeCallableCapableTraitTest extends TestCase
     }
 
     /**
+     * Creates a new invocable object.
+     *
+     * @since [*next-version*]
+     *
+     * @return MockObject An object that has an `__invoke()` method.
+     */
+    public function createCallable()
+    {
+        $mock = $this->getMockBuilder('MyCallable')
+            ->setMethods(['__invoke'])
+            ->getMock();
+
+        return $mock;
+    }
+
+    /**
      * Tests whether a valid instance of the test subject can be created.
      *
      * @since [*next-version*]
@@ -274,6 +290,49 @@ class InvokeCallableCapableTraitTest extends TestCase
 
         $result = $_subject->_invokeCallable($callable, $args);
         $this->assertEquals($length, $result, 'Invocation produced a wrong result');
+    }
+
+    /**
+     * Tests that `_invokeCallable()` works as expected when given an invocable object.
+     *
+     * @since [*next-version*]
+     */
+    public function testInvokeCallableObject()
+    {
+        $arg = uniqid('string');
+        $args = [$arg];
+        $object = $this->createCallable();
+        $method = '__invoke';
+        $reflection = $this->createReflectionMethod($object, $method, ['invokeArgs']);
+        $val = uniqid('val');
+        $params = $reflection->getParameters();
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeArray')
+            ->with($args)
+            ->will($this->returnArgument(0));
+        $subject->expects($this->exactly(1))
+            ->method('_createReflectionForCallable')
+            ->with($object)
+            ->will($this->returnValue($reflection));
+        $subject->expects($this->exactly(1))
+            ->method('_validateParams')
+            ->with($args, $params);
+
+        $object->expects($this->exactly(1))
+            ->method($method)
+            ->with($arg)
+            ->will($this->returnValue($val));
+
+        $reflection->expects($this->exactly(1))
+            ->method('invokeArgs')
+            ->with($object, $args)
+            ->will($this->returnValue($val));
+
+        $result = $_subject->_invokeCallable($object, $args);
+        $this->assertEquals($val, $result, 'Invocation produced a wrong result');
     }
 
     /*
