@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [[*next-version*]] - YYYY-MM-DD
+### Fixed
+- Issue #10, where context was lost inside invoked closures.
 
 ## [0.1-alpha4] - 2018-04-03
 ### Fixed
