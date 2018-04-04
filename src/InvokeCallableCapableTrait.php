@@ -66,7 +66,7 @@ trait InvokeCallableCapableTrait
 
                 return $reflection->invokeArgs($target, $args);
             } else {
-                return $reflection->invokeArgs($args);
+                return call_user_func_array($callable, $args);
             }
         } catch (RootException $e) {
             throw $this->_createInternalException(

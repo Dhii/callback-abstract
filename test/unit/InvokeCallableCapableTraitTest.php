@@ -236,11 +236,6 @@ class InvokeCallableCapableTraitTest extends TestCase
             ->method('_validateParams')
             ->with($args, $params);
 
-        $reflection->expects($this->exactly(1))
-            ->method('invokeArgs')
-            ->with($args)
-            ->will($this->returnValue($length));
-
         $result = $_subject->_invokeCallable($function, $args);
         $this->assertEquals($length, $result, 'Invocation produced a wrong result');
     }
