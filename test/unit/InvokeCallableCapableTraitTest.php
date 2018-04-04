@@ -7,8 +7,6 @@ use ReflectionFunction;
 use ReflectionMethod;
 use Xpmock\TestCase;
 use Dhii\Invocation\InvokeCallableCapableTrait as TestSubject;
-use InvalidArgumentException;
-use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
