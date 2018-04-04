@@ -7,8 +7,6 @@ use ReflectionFunction;
 use ReflectionMethod;
 use Xpmock\TestCase;
 use Dhii\Invocation\InvokeCallableCapableTrait as TestSubject;
-use InvalidArgumentException;
-use Exception as RootException;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
@@ -238,11 +236,6 @@ class InvokeCallableCapableTraitTest extends TestCase
             ->method('_validateParams')
             ->with($args, $params);
 
-        $reflection->expects($this->exactly(1))
-            ->method('invokeArgs')
-            ->with($args)
-            ->will($this->returnValue($length));
-
         $result = $_subject->_invokeCallable($function, $args);
         $this->assertEquals($length, $result, 'Invocation produced a wrong result');
     }
@@ -332,6 +325,46 @@ class InvokeCallableCapableTraitTest extends TestCase
             ->will($this->returnValue($val));
 
         $result = $_subject->_invokeCallable($object, $args);
+        $this->assertEquals($val, $result, 'Invocation produced a wrong result');
+    }
+
+    /**
+     * Tests that `_invokeCallable()` preserves the context in the closure.
+     *
+     * @since [*next-version*]
+     */
+    public function testInvokeCallableClosureContext()
+    {
+        $me = $this;
+        $val = uniqid('val');
+        $callable = function () use ($me, $val) {
+            $context = isset($this)
+                ? $this
+                : null;
+
+            $me->assertSame($me, $context, 'Context in invoked closure is wrong');
+            return $val;
+        };
+        $arg = uniqid('string');
+        $args = [$arg];
+        $reflection = $this->createReflectionFunction($callable);
+        $params = $reflection->getParameters();
+        $subject = $this->createInstance();
+        $_subject = $this->reflect($subject);
+
+        $subject->expects($this->exactly(1))
+            ->method('_normalizeArray')
+            ->with($args)
+            ->will($this->returnArgument(0));
+        $subject->expects($this->exactly(1))
+            ->method('_createReflectionForCallable')
+            ->with($callable)
+            ->will($this->returnValue($reflection));
+        $subject->expects($this->exactly(1))
+            ->method('_validateParams')
+            ->with($args, $params);
+
+        $result = $_subject->_invokeCallable($callable, $args);
         $this->assertEquals($val, $result, 'Invocation produced a wrong result');
     }
 }
